@@ -61,7 +61,7 @@ select customers.name,orders.order_reference,order_date,products.product_name,su
     INNER join customers
      on customers.id = orders.customer_id;
 
-select *
+select customers.name
  from customers 
     INNER JOIN orders
      on customers.id = orders.customer_id
@@ -71,4 +71,5 @@ select *
      on order_items.product_id = products.id
     INNER join suppliers
      on products.supplier_id = suppliers.id
-WHERE suppliers.country ='China';
+WHERE suppliers.country ='China'
+GROUP by customers.name;
