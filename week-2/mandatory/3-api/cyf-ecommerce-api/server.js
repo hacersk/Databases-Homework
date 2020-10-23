@@ -16,6 +16,7 @@ const pool = new Pool({
 });
 
 app.get("/products/suppliers",function(req, res) {
+
     pool.query("SELECT * FROM products inner join suppliers on products.supplier_id=suppliers.id;", (error, result) => {
         console.log(result.rows);
         res.json(result.rows);
@@ -32,11 +33,12 @@ app.get("/products/:id", function (req, res) {
 
 app.get("/products", function (req, res) {
     const name = req.query.name;
+
    let query = `SELECT * FROM products`;
   
     if (name) {
         console.log(name);
-      query = `SELECT * FROM products WHERE product_name LIKE '${name}%' `;
+      query = `SELECT * FROM products WHERE LOWER(product_name) LIKE '%${name}%' `;
     }
   
     pool
@@ -48,7 +50,7 @@ app.get("/products", function (req, res) {
 
  
 app.get("/customers",function(req, res) {
-    pool.query('SELECT * FROM customers;', (error, result) => {
+    pool.query(`SELECT * FROM customers;`, (error, result) => {
         console.log(result.rows);
         res.json(result.rows);
     });
@@ -62,6 +64,6 @@ app.get("/suppliers",function(req, res) {
 });
 
 
-app.listen(3000, function() {
+app.listen(3001, function() {
     console.log("Server is listening on port 3000. Ready to accept requests!");
 });
